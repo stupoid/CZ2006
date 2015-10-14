@@ -1,0 +1,10 @@
+{
+  "name": "cz2006",
+  "version": "1.0.0",
+  "main": "server.js",
+  "description": "Software Engineering Project",
+  "dependencies": {
+    "express": "^4.13.3",
+    "request": "^2.65.0"
+  }
+}
