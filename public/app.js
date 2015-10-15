@@ -21,7 +21,7 @@ angular.module('tpApp', ['mgcrea.ngStrap'])
       vm.locations.shift();
     });
   };
-
+  
   vm.addLocation = function(location) {
     if (vm.routeLocations.length >= 5) {
       vm.routeAlert = "Too many locations!";

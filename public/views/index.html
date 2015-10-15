@@ -47,7 +47,7 @@
 			<div class="page-header">
 				<h3>Route Planner</h3>
 			</div>
-			<div class="panel panel-info" ng-repeat="location in main.routeLocations">
+			<div class="panel panel-info" ng-repeat="location in main.routeLocations track by $index">
 			  <div class="panel-heading">
 			    <h3 class="panel-title"><span ng-show="$index===0">Start </span>Location {{ $index | alphabetize }}
 						<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true" ng-click="main.removeRouteLocation($index)"></span>
