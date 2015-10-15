@@ -27,20 +27,11 @@ angular.module('tpApp', ['mgcrea.ngStrap'])
       vm.routeAlert = "Too many locations!";
       return;
     }
-    var index = vm.locations.indexOf(location);
-    // add location to routeLocations
-    vm.routeLocations.push(vm.locations[index]);
-
-    // remove location by index from locations
-    vm.locations.splice(index, 1)
+    vm.routeLocations.push(location);
   };
 
   vm.removeRouteLocation = function(index) {
     if (vm.routeLocations.length <= 5) vm.routeAlert = "";
-    // add location back to locations
-    vm.locations.push(vm.routeLocations[index]);
-
-    // remove originalindex from location
     vm.routeLocations.splice(index, 1);
   };
 
