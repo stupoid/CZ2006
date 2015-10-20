@@ -11,6 +11,11 @@ body {
     -webkit-animation: spin 2000ms infinite linear;
     animation: spin 2000ms infinite linear;
 }
+
+.result-searchbar {
+  margin-top: 24px;
+}
+
 @-webkit-keyframes spin {
     0% {
         -webkit-transform: rotate(0deg);

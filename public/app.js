@@ -7,9 +7,11 @@ angular.module('tpApp', ['mgcrea.ngStrap'])
   vm.pageLoading = false;
   vm.routeLocations = [];
   vm.routeAlert = "";
+  var maxLocations = 5;
 
   vm.getLocations = function(themeName) {
     vm.pageLoading = true;
+    vm.header = { title: "Loading" };
     console.log("sending request for theme: " + themeName);
     // connect to server to get locations
     $http.get('/api/theme/'+themeName)
@@ -21,9 +23,9 @@ angular.module('tpApp', ['mgcrea.ngStrap'])
       vm.locations.shift();
     });
   };
-  
+
   vm.addLocation = function(location) {
-    if (vm.routeLocations.length >= 5) {
+    if (vm.routeLocations.length >= maxLocations) {
       vm.routeAlert = "Too many locations!";
       return;
     }
@@ -31,8 +33,30 @@ angular.module('tpApp', ['mgcrea.ngStrap'])
   };
 
   vm.removeRouteLocation = function(index) {
-    if (vm.routeLocations.length <= 5) vm.routeAlert = "";
+    if (vm.routeLocations.length <= maxLocations) vm.routeAlert = "";
     vm.routeLocations.splice(index, 1);
+  };
+
+  vm.planRoute = function() {
+    if (vm.routeLocations.length < 3 ) return;
+
+    console.log(vm.routeLocations);
+
+    console.log("sending route request");
+    $http.post('/api/directions', vm.routeLocations)
+    .then(function(res) {
+      console.log(res.data);
+    });
+
+    //console.log(CnvEN2LL(30047.6749, 30339.5771));
+
+    /*
+    $http.get('/api/directons/'+locationA.XY+'/'+locationB.XY)
+    .then(function(res) {
+      console.log(res.data);
+    });
+    */
+
   };
 
 })
