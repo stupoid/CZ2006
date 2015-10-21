@@ -56,11 +56,13 @@ app.post('/api/directions', function(req, res) {
 			}
 			var shortestRoute = {
 				locationOrderString : [],
+				coordOrder: [],
 				routeDuration : directions.routeInfo[shortest].totalTime,
 				routeLength : directions.routeInfo[shortest].totalLength
 			}
 			for (i=0; i<directions.locationOrder[shortest].length; i++) {
 				shortestRoute.locationOrderString.push(locations[directions.locationOrder[shortest][i]].NAME);
+				shortestRoute.coordOrder.push(locations[directions.locationOrder[shortest][i]].XY);
 			}
 			res.json(shortestRoute);
 		}

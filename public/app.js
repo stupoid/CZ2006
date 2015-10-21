@@ -7,7 +7,9 @@ angular.module('tpApp', ['mgcrea.ngStrap'])
   vm.pageLoading = false;
   vm.routeLocations = [];
   vm.routeAlert = "";
-  var maxLocations = 5;
+  vm.tooltip = { "title": "Set End Location as this too!" };
+
+  var maxLocations = 3;
 
   vm.getLocations = function(themeName) {
     vm.pageLoading = true;
@@ -24,6 +26,14 @@ angular.module('tpApp', ['mgcrea.ngStrap'])
     });
   };
 
+  vm.addStartLocation = function(location) {
+    vm.startLocation = location;
+  };
+
+  vm.removeStartLocation = function() {
+    delete vm.startLocation;
+  }
+
   vm.addLocation = function(location) {
     if (vm.routeLocations.length >= maxLocations) {
       vm.routeAlert = "Too many locations!";
@@ -32,20 +42,41 @@ angular.module('tpApp', ['mgcrea.ngStrap'])
     vm.routeLocations.push(location);
   };
 
+  vm.addEndLocation = function(location) {
+    vm.endLocation = location;
+  };
+
+  vm.removeEndLocation = function() {
+    delete vm.endLocation;
+  };
+
   vm.removeRouteLocation = function(index) {
     if (vm.routeLocations.length <= maxLocations) vm.routeAlert = "";
     vm.routeLocations.splice(index, 1);
   };
 
   vm.planRoute = function() {
-    if (vm.routeLocations.length < 3 ) return;
+    var locations = vm.routeLocations.slice();
+    locations.unshift(vm.startLocation);
+    locations.push(vm.endLocation);
+    console.log(locations);
+    vm.pageLoading = true;
+    vm.header.title = "Loading";
+    vm.header.subtitle = "fetching results";
 
-    console.log(vm.routeLocations);
-
-    console.log("sending route request");
-    $http.post('/api/directions', vm.routeLocations)
+    $http.post('/api/directions', locations)
     .then(function(res) {
+      vm.pageLoading = false;
+      shortestRoute = res.data;
+      var coords = "";
+      var len = shortestRoute.coordOrder.length;
+      for(i=0; i<len-1; i++) {
+        coords += shortestRoute.coordOrder[i] + '|';
+      }
+      coords += shortestRoute.coordOrder[len-1];
+
       console.log(res.data);
+      console.log(coords);
     });
 
     //console.log(CnvEN2LL(30047.6749, 30339.5771));
